@@ -9,7 +9,9 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/selma23042/productapp.git'
+                git branch: 'main',
+                    credentialsId: 'github-token-selma', 
+                    url: 'https://github.com/selma23042/Tp3.git'
             }
         }
 
