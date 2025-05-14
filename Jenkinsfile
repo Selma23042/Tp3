@@ -4,6 +4,7 @@ pipeline {
     environment {
         ANSIBLE_INVENTORY = 'inventaire.ini'
         ANSIBLE_PLAYBOOK = 'deploy.yml'
+        ANSIBLE_HOST_KEY_CHECKING = 'False'
     }
 
     stages {
