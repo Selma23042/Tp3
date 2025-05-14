@@ -4,7 +4,6 @@ pipeline {
     environment {
         ANSIBLE_INVENTORY = 'inventaire.ini'
         ANSIBLE_PLAYBOOK = 'deploy.yml'
-        SUDO_PASS = credentials('sudo-password')
     }
 
     stages {
@@ -23,8 +22,8 @@ pipeline {
 
         stage('Install Ansible') {
             steps {
-                sh 'echo "$SUDO_PASS" | sudo -S apt update'
-                sh 'echo "$SUDO_PASS" | sudo -S apt install -y ansible'
+                sh 'sudo apt update'
+                sh 'sudo apt install -y ansible'
             }
         }
 
