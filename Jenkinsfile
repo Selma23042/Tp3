@@ -4,15 +4,20 @@ pipeline {
     environment {
         ANSIBLE_INVENTORY = 'inventaire.ini'
         ANSIBLE_PLAYBOOK = 'deploy.yml'
-        SUDO_PASS = credentials('s49196554')
+        SUDO_PASS = credentials('sudo-password')
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'master',
-                    credentialsId: 'github-token-selma',
-                    url: 'https://github.com/selma23042/Tp3.git'
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: '*/master']],
+                    userRemoteConfigs: [[
+                        url: 'https://github.com/Selma23042/Tp3.git',
+                        credentialsId: 'github-token-selma'
+                    ]]
+                ])
             }
         }
 
