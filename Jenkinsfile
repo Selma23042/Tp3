@@ -1,28 +1,31 @@
 pipeline {
     agent any
 
+    environment {
+        ANSIBLE_INVENTORY = 'inventaire.ini'
+        ANSIBLE_PLAYBOOK = 'deploy.yml'
+    }
+
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/Tp3/productapp.git'
-            }
-        }
-        
-        stage('Build') {
-            steps {
-                sh './gradlew clean package'
+                git branch: 'main', url: 'https://github.com/selma23042/productapp.git'
             }
         }
 
-        stage('Test') {
+        stage('Install Ansible') {
             steps {
-                sh './gradlew test'
+                sh 'sudo apt update'
+                sh 'sudo apt install -y ansible'
             }
         }
 
-        stage('Deploy') {
+        stage('Run Ansible Playbook') {
             steps {
-                echo 'Déploiement en cours...'
+                ansiblePlaybook(
+                    playbook: "${ANSIBLE_PLAYBOOK}",
+                    inventory: "${ANSIBLE_INVENTORY}"
+                )
             }
         }
     }
